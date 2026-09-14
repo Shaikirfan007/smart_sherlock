@@ -5,7 +5,6 @@ services:
   - type: web
     name: dems-backend
     runtime: docker
-    plan: free
     rootDir: backend
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
