@@ -7,7 +7,7 @@ import {
   Activity, Link2, Zap, Send, FileText, FileLock2, Fingerprint,
   ShieldCheck, ShieldAlert, Lock, RefreshCw, Edit3, Trash2,
   Terminal, Cpu, Database, Radio, Wifi, Filter, TrendingUp,
-  ArrowUpRight, LayoutDashboard, Hash, Layers, LogOut
+  ArrowUpRight, LayoutDashboard, Hash, Layers, LogOut, Circle
 } from "lucide-react";
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -1229,19 +1229,48 @@ function UploadPage() {
   const [uploadDone, setUploadDone] = useState(false);
   const [uploadStep, setUploadStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const steps = ["ENCRYPTING FILE", "GENERATING SHA-256 HASH", "VERIFYING INTEGRITY", "CREATING CUSTODY RECORD"];
 
-  const startUpload = () => {
+  const handleUpload = async (file: File) => {
     setUploading(true); setUploadDone(false); setUploadStep(0); setProgress(0);
-    let p = 0, step = 0;
+    
+    // Simulate initial progress while waiting for API
+    let p = 0;
     const t = setInterval(() => {
-      p += 8;
-      step = Math.floor((p / 100) * 4);
-      setUploadStep(Math.min(step, 3));
-      setProgress(Math.min(p, 100));
-      if (p >= 100) { clearInterval(t); setTimeout(() => { setUploading(false); setUploadDone(true); }, 400); }
+      p += 5;
+      if (p < 85) {
+        setProgress(p);
+        setUploadStep(Math.floor((p / 100) * 4));
+      }
     }, 200);
+
+    try {
+      await api.documents.upload(file);
+      clearInterval(t);
+      setProgress(100);
+      setUploadStep(3);
+      setTimeout(() => { setUploading(false); setUploadDone(true); }, 400);
+    } catch (err: any) {
+      clearInterval(t);
+      setUploading(false);
+      alert("Upload failed: " + err.message);
+    }
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    if (!uploading && !uploadDone && e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleUpload(e.dataTransfer.files[0]);
+    }
+  };
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleUpload(e.target.files[0]);
+    }
   };
 
   return (
@@ -1254,11 +1283,21 @@ function UploadPage() {
         </div>
 
         {/* Drop Zone */}
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          style={{ display: 'none' }} 
+          onChange={onFileChange} 
+        />
         <div
           onDragOver={e => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
-          onDrop={e => { e.preventDefault(); setDragging(false); startUpload(); }}
-          onClick={() => !uploading && !uploadDone && startUpload()}
+          onDrop={onDrop}
+          onClick={() => {
+            if (!uploading && !uploadDone) {
+              fileInputRef.current?.click();
+            }
+          }}
           className="relative rounded-2xl p-12 text-center cursor-pointer overflow-hidden transition-all mb-6"
           style={{
             background: dragging ? "rgba(0,130,83,0.1)" : "rgba(255,255,255,0.86)",
@@ -1290,6 +1329,13 @@ function UploadPage() {
               <div>
                 <div className="text-xl font-bold mb-1" style={{ color: C.green }}>EVIDENCE SECURED</div>
                 <div className="mono text-[10px] tracking-widest" style={{ color: "rgba(0,92,56,0.9)" }}>SHA-256 VERIFIED · CUSTODY RECORD CREATED</div>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setUploadDone(false); setProgress(0); setUploadStep(0); }}
+                  className="mt-4 px-4 py-2 rounded-xl text-xs font-bold transition-all"
+                  style={{ background: "rgba(0,217,126,0.1)", color: C.green, border: "1px solid rgba(0,217,126,0.3)" }}
+                >
+                  UPLOAD ANOTHER
+                </button>
               </div>
             ) : uploading ? (
               <div>

@@ -1,0 +1,8 @@
+com\dems\DemsApplicationTests.class
+com\dems\document\DocumentAndIntegrityTest.class
+com\dems\health\HealthControllerTest.class
+com\dems\common\exception\GlobalExceptionHandlerTest.class
+com\dems\security\JwtAndCryptoTest.class
+com\dems\audit\AuditChainTest.class
+com\dems\security\RbacTest.class
+com\dems\casefile\CaseManagementTest.class

@@ -1,0 +1,8 @@
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\audit\AuditChainTest.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\casefile\CaseManagementTest.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\common\exception\GlobalExceptionHandlerTest.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\DemsApplicationTests.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\document\DocumentAndIntegrityTest.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\health\HealthControllerTest.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\security\JwtAndCryptoTest.java
+C:\PROJECTS\sihp\backend\src\test\java\com\dems\security\RbacTest.java

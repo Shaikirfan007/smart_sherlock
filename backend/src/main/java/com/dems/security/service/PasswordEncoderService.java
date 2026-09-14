@@ -2,11 +2,11 @@ package com.dems.security.service;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PasswordEncoderService {
+public class PasswordEncoderService implements PasswordEncoder {
 
     private static final int PARALLELISM = 1;
     private static final int MEMORY = 65536;
@@ -26,6 +26,11 @@ public class PasswordEncoderService {
         }
     }
 
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return encode(rawPassword != null ? rawPassword.toString() : "");
+    }
+
     public String encode(String rawPassword) {
         char[] passwordChars = rawPassword.toCharArray();
         try {
@@ -33,6 +38,11 @@ public class PasswordEncoderService {
         } finally {
             argon2.wipeArray(passwordChars);
         }
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedHash) {
+        return matches(rawPassword != null ? rawPassword.toString() : "", encodedHash);
     }
 
     public boolean matches(String rawPassword, String encodedHash) {

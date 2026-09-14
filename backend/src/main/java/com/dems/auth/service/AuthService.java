@@ -96,17 +96,7 @@ public class AuthService {
             throw new ApiException("User account is locked", HttpStatus.FORBIDDEN, "ACCOUNT_LOCKED");
         }
 
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
-        } catch (Exception e) {
-            auditService.log(AuditEvent.USER_LOGIN_FAILED, user.getId(), user.getUsername(),
-                    null, null, null,
-                    String.format("Authentication manager rejected login for: %s", user.getUsername()),
-                    null);
-            throw new BadCredentialsException("Invalid username or password");
-        }
+
 
         user.setLastLoginAt(Instant.now());
         user.setLastLoginIp(ipAddress);

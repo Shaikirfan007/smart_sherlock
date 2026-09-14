@@ -1,0 +1,27 @@
+2026-09-11 00:58:31.595 [lettuce-eventExecutorLoop-1-2] INFO  i.l.core.protocol.ConnectionWatchdog - Reconnecting, last destination was localhost/127.0.0.1:6379
+2026-09-11 00:58:32.094 [lettuce-nioEventLoop-6-2] WARN  i.l.core.protocol.ConnectionWatchdog - Cannot reconnect to [localhost/<unresolved>:6379]: Connection closed prematurely
+io.lettuce.core.RedisConnectionException: Connection closed prematurely
+	at io.lettuce.core.protocol.RedisHandshakeHandler.channelInactive(RedisHandshakeHandler.java:91)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelInactive(ChannelInboundHandlerAdapter.java:81)
+	at io.lettuce.core.ChannelGroupListener.channelInactive(ChannelGroupListener.java:69)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelInactive(DefaultChannelPipeline.java:1352)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:301)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelInactive(DefaultChannelPipeline.java:850)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$7.run(AbstractChannel.java:811)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:1575)
+2026-09-11 00:58:37.052 [lettuce-eventExecutorLoop-1-8] INFO  i.l.core.protocol.ConnectionWatchdog - Reconnecting, last destination was localhost/<unresolved>:6379
+2026-09-11 00:58:37.061 [lettuce-nioEventLoop-6-13] WARN  i.l.core.protocol.ConnectionWatchdog - Cannot reconnect to [localhost/<unresolved>:6379]: Connection refused: getsockopt: localhost/127.0.0.1:6379

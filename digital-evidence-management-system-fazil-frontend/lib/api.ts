@@ -56,6 +56,12 @@ async function apiFetch<T>(path: string, options: RequestInit = {}, requireAuth 
   const payload = text ? JSON.parse(text) : null;
 
   if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      clearStoredAuthSession();
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
+    }
     const message = payload?.error?.message || payload?.message || `Request failed with status ${response.status}`;
     throw new Error(message);
   }
@@ -140,6 +146,16 @@ export const api = {
     async list() {
       return await apiFetch<any>('/api/audit/logs');
     },
+  },
+  documents: {
+    async upload(file: File) {
+      const formData = new FormData();
+      formData.append('file', file);
+      return await apiFetch('/api/documents/upload', {
+        method: 'POST',
+        body: formData,
+      });
+    }
   },
   users: {
     async list() {

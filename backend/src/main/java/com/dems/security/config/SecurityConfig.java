@@ -74,6 +74,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder(com.dems.security.service.PasswordEncoderService passwordEncoderService) {
+        return passwordEncoderService;
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
